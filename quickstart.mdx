@@ -14,12 +14,12 @@ description: "Get started with TinyFn in under a minute"
 <CodeGroup>
 
 ```bash cURL
-curl "https://tinyfn.io/v1/generate/uuid" \
+curl "https://api.tinyfn.io/v1/generate/uuid" \
   -H "X-API-Key: YOUR_API_KEY"
 ```
 
 ```javascript JavaScript
-const response = await fetch('https://tinyfn.io/v1/generate/uuid', {
+const response = await fetch('https://api.tinyfn.io/v1/generate/uuid', {
   headers: { 'X-API-Key': 'YOUR_API_KEY' }
 });
 const data = await response.json();
@@ -30,14 +30,14 @@ console.log(data.uuid);
 import requests
 
 response = requests.get(
-    'https://tinyfn.io/v1/generate/uuid',
+    'https://api.tinyfn.io/v1/generate/uuid',
     headers={'X-API-Key': 'YOUR_API_KEY'}
 )
 print(response.json()['uuid'])
 ```
 
 ```go Go
-req, _ := http.NewRequest("GET", "https://tinyfn.io/v1/generate/uuid", nil)
+req, _ := http.NewRequest("GET", "https://api.tinyfn.io/v1/generate/uuid", nil)
 req.Header.Set("X-API-Key", "YOUR_API_KEY")
 resp, _ := http.DefaultClient.Do(req)
 ```
@@ -59,22 +59,22 @@ resp, _ := http.DefaultClient.Do(req)
 <CardGroup cols={2}>
   <Card title="Validate an email" icon="envelope">
     ```bash
-    curl "https://tinyfn.io/v1/validate/email?email=test@example.com"
+    curl "https://api.tinyfn.io/v1/validate/email?email=test@example.com"
     ```
   </Card>
   <Card title="Generate a password" icon="lock">
     ```bash
-    curl "https://tinyfn.io/v1/generate/password?length=16"
+    curl "https://api.tinyfn.io/v1/generate/password?length=16"
     ```
   </Card>
   <Card title="Hash a string" icon="hashtag">
     ```bash
-    curl "https://tinyfn.io/v1/hash/sha256?text=hello"
+    curl "https://api.tinyfn.io/v1/hash/sha256?text=hello"
     ```
   </Card>
   <Card title="Get a dad joke" icon="face-laugh">
     ```bash
-    curl "https://tinyfn.io/v1/fun/dad-joke"
+    curl "https://api.tinyfn.io/v1/fun/dad-joke"
     ```
   </Card>
 </CardGroup>
