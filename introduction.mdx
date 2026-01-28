@@ -1,0 +1,65 @@
+---
+title: Introduction
+description: "500+ production-ready utility endpoints for developers"
+---
+
+# Welcome to TinyFn
+
+TinyFn is a REST API with **500+ utility endpoints** for the stuff you're tired of building. UUID generation, email validation, string manipulation, encoding, hashing, formatting — all battle-tested and ready to ship.
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get your API key and make your first request in under a minute
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference">
+    Browse all 500+ endpoints with interactive examples
+  </Card>
+</CardGroup>
+
+## Why TinyFn?
+
+<AccordionGroup>
+  <Accordion title="Stop reinventing the wheel">
+    Every project needs UUID generation, email validation, string formatting. Instead of writing (and testing) the same utilities again, call our battle-tested endpoints.
+  </Accordion>
+  <Accordion title="Works with any stack">
+    REST API means it works with JavaScript, Python, Go, Ruby, PHP, curl — anything that can make HTTP requests.
+  </Accordion>
+  <Accordion title="Fast and reliable">
+    Sub-50ms response times. 99.9% uptime SLA. Built on edge infrastructure for low latency worldwide.
+  </Accordion>
+  <Accordion title="Generous free tier">
+    100 requests/month free. No credit card required to get started.
+  </Accordion>
+</AccordionGroup>
+
+## Example Request
+
+```bash
+curl "https://tinyfn.io/v1/generate/uuid" \
+  -H "X-API-Key: your_api_key"
+```
+
+```json Response
+{
+  "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+  "version": 4,
+  "variant": "RFC 4122"
+}
+```
+
+## Popular Endpoints
+
+| Category | Endpoints | Examples |
+|----------|-----------|----------|
+| **Generators** | UUID, password, token, Lorem ipsum | `/v1/generate/uuid`, `/v1/generate/password` |
+| **Validation** | Email, URL, phone, credit card | `/v1/validate/email`, `/v1/validate/phone` |
+| **Encoding** | Base64, URL encode, hex | `/v1/encode/base64`, `/v1/encode/url` |
+| **Hashing** | MD5, SHA256, SHA512, bcrypt | `/v1/hash/sha256`, `/v1/hash/bcrypt` |
+| **String** | Slug, camelCase, truncate, reverse | `/v1/string/slug`, `/v1/string/camelcase` |
+| **Math** | Prime check, factorial, GCD, statistics | `/v1/math/is-prime`, `/v1/stats/mean` |
+| **Fun** | Dad jokes, magic 8-ball, fortune | `/v1/fun/dad-joke`, `/v1/fun/8ball` |
+
+<Card title="See all 500+ endpoints" icon="arrow-right" href="/api-reference">
+  Browse the complete API reference
+</Card>

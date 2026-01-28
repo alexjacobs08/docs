@@ -1,0 +1,73 @@
+---
+title: Authentication
+description: "How to authenticate with the TinyFn API"
+---
+
+## API Keys
+
+All TinyFn API requests require authentication via an API key. Include your key in the `X-API-Key` header:
+
+```bash
+curl "https://tinyfn.io/v1/generate/uuid" \
+  -H "X-API-Key: tfn_live_abc123..."
+```
+
+## Getting your API key
+
+1. [Sign up](https://tinyfn.io/#signup) for a free account
+2. Your API key will be displayed on the dashboard
+3. Copy and store it securely - it won't be shown again
+
+<Warning>
+  Never expose your API key in client-side code, public repositories, or anywhere it could be seen by others.
+</Warning>
+
+## Key format
+
+TinyFn API keys follow this format:
+
+| Prefix | Environment | Example |
+|--------|-------------|---------|
+| `tfn_live_` | Production | `tfn_live_abc123def456...` |
+| `tfn_test_` | Testing | `tfn_test_xyz789...` |
+
+## Security best practices
+
+<AccordionGroup>
+  <Accordion title="Use environment variables">
+    Store your API key in environment variables, not in code:
+
+    ```bash
+    export TINYFN_API_KEY="tfn_live_abc123..."
+    ```
+
+    ```python
+    import os
+    api_key = os.environ.get('TINYFN_API_KEY')
+    ```
+  </Accordion>
+
+  <Accordion title="Rotate keys regularly">
+    You can generate new API keys from your dashboard. Rotate keys periodically and if you suspect a key has been compromised.
+  </Accordion>
+
+  <Accordion title="Use separate keys per environment">
+    Use different API keys for development, staging, and production environments.
+  </Accordion>
+</AccordionGroup>
+
+## Error responses
+
+If authentication fails, you'll receive a `401 Unauthorized` response:
+
+```json
+{
+  "error": "Invalid API key",
+  "code": "UNAUTHORIZED"
+}
+```
+
+Common causes:
+- Missing `X-API-Key` header
+- Invalid or expired API key
+- Key doesn't have permission for the requested endpoint

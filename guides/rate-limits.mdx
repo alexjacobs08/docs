@@ -1,0 +1,78 @@
+---
+title: Rate Limits
+description: "Understanding TinyFn API rate limits"
+---
+
+## Rate limit tiers
+
+TinyFn uses rate limiting to ensure fair usage and maintain API stability.
+
+| Plan | Price | Requests/month | Requests/minute |
+|------|-------|----------------|-----------------|
+| **Free** | $0 | 100 | 10 |
+| **Starter** | $5/mo | 10,000 | 100 |
+| **Pro** | $15/mo | 100,000 | 1,000 |
+
+## Rate limit headers
+
+Every API response includes headers showing your current usage:
+
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1640995200
+```
+
+| Header | Description |
+|--------|-------------|
+| `X-RateLimit-Limit` | Your rate limit per minute |
+| `X-RateLimit-Remaining` | Requests remaining in current window |
+| `X-RateLimit-Reset` | Unix timestamp when the limit resets |
+
+## Rate limit exceeded
+
+When you exceed your rate limit, you'll receive a `429 Too Many Requests` response:
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "code": "RATE_LIMIT_EXCEEDED",
+  "retry_after": 60
+}
+```
+
+## Best practices
+
+<AccordionGroup>
+  <Accordion title="Implement exponential backoff">
+    When you receive a 429 response, wait before retrying:
+
+    ```python
+    import time
+
+    def make_request_with_retry(url, max_retries=3):
+        for attempt in range(max_retries):
+            response = requests.get(url, headers=headers)
+            if response.status_code == 429:
+                wait_time = 2 ** attempt  # 1, 2, 4 seconds
+                time.sleep(wait_time)
+                continue
+            return response
+        raise Exception("Max retries exceeded")
+    ```
+  </Accordion>
+
+  <Accordion title="Cache responses">
+    For endpoints with stable outputs (like validation), cache results to reduce API calls.
+  </Accordion>
+
+  <Accordion title="Batch requests">
+    Where possible, combine multiple operations into fewer requests.
+  </Accordion>
+</AccordionGroup>
+
+## Need higher limits?
+
+<Card title="Upgrade your plan" icon="arrow-up" href="https://tinyfn.io/#pricing">
+  Get higher rate limits with Pro or Business plans
+</Card>

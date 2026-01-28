@@ -1,0 +1,123 @@
+---
+title: Error Handling
+description: "How to handle errors from the TinyFn API"
+---
+
+## Error response format
+
+All error responses follow a consistent format:
+
+```json
+{
+  "error": "Human-readable error message",
+  "code": "ERROR_CODE",
+  "details": {}  // Optional additional context
+}
+```
+
+## HTTP status codes
+
+| Status | Meaning | When it occurs |
+|--------|---------|----------------|
+| `400` | Bad Request | Invalid parameters or malformed request |
+| `401` | Unauthorized | Missing or invalid API key |
+| `403` | Forbidden | API key doesn't have access to this endpoint |
+| `404` | Not Found | Endpoint doesn't exist |
+| `422` | Unprocessable Entity | Valid request but invalid data |
+| `429` | Too Many Requests | Rate limit exceeded |
+| `500` | Internal Server Error | Something went wrong on our end |
+
+## Common error codes
+
+### Authentication errors
+
+```json
+{
+  "error": "Invalid API key",
+  "code": "UNAUTHORIZED"
+}
+```
+
+**Solution:** Check that your API key is correct and included in the `X-API-Key` header.
+
+### Validation errors
+
+```json
+{
+  "error": "Invalid email format",
+  "code": "VALIDATION_ERROR",
+  "details": {
+    "field": "email",
+    "value": "not-an-email"
+  }
+}
+```
+
+**Solution:** Check the parameter requirements in the API reference.
+
+### Rate limit errors
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "code": "RATE_LIMIT_EXCEEDED",
+  "retry_after": 60
+}
+```
+
+**Solution:** Wait for the `retry_after` seconds before retrying. See [Rate Limits](/guides/rate-limits).
+
+## Error handling examples
+
+<CodeGroup>
+
+```javascript JavaScript
+try {
+  const response = await fetch('https://tinyfn.io/v1/validate/email?email=test', {
+    headers: { 'X-API-Key': apiKey }
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    console.error(`Error ${response.status}: ${error.error}`);
+    return;
+  }
+
+  const data = await response.json();
+} catch (err) {
+  console.error('Network error:', err);
+}
+```
+
+```python Python
+import requests
+
+try:
+    response = requests.get(
+        'https://tinyfn.io/v1/validate/email',
+        params={'email': 'test'},
+        headers={'X-API-Key': api_key}
+    )
+    response.raise_for_status()
+    data = response.json()
+except requests.exceptions.HTTPError as e:
+    error = e.response.json()
+    print(f"API Error: {error['error']}")
+except requests.exceptions.RequestException as e:
+    print(f"Network error: {e}")
+```
+
+</CodeGroup>
+
+## Getting help
+
+If you encounter persistent errors or believe there's an issue with the API:
+
+<CardGroup cols={2}>
+  <Card title="Check API Status" icon="signal" href="https://status.tinyfn.io">
+    View current system status and incidents
+  </Card>
+  <Card title="Contact Support" icon="envelope" href="mailto:support@tinyfn.io">
+    Reach out if you need help
+  </Card>
+</CardGroup>
