@@ -38,11 +38,6 @@
     "global": {
       "anchors": [
         {
-          "anchor": "API Playground",
-          "href": "https://tinyfn.io/api-docs",
-          "icon": "play"
-        },
-        {
           "anchor": "Blog",
           "href": "https://tinyfn.io/blog",
           "icon": "newspaper"
