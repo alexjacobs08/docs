@@ -1,0 +1,143 @@
+---
+title: MCP Integration
+description: Use TinyFn tools with AI assistants via MCP
+---
+
+# MCP Integration
+
+TinyFn exposes its 500+ utility functions as MCP (Model Context Protocol) tools, allowing AI assistants like Claude to call TinyFn functions directly for accurate results.
+
+## Why Use MCP?
+
+LLMs often hallucinate when doing:
+- **Math**: Large number arithmetic, floating point operations, decimal comparisons
+- **Conversions**: Unit conversions (UK vs US gallons, temperature)
+- **Encoding**: Base64, URL encoding, hash generation
+- **Dates**: Date calculations, timezone conversions
+- **Counting**: Character counting (how many 'r' in 'strawberry')
+
+With TinyFn MCP, LLMs can call verified functions instead of guessing.
+
+## Available Servers
+
+TinyFn provides category-based MCP servers to avoid overwhelming LLMs with 500+ tools:
+
+| Server | URL | Description |
+|--------|-----|-------------|
+| Math | `/mcp/math` | Arithmetic, comparisons, trigonometry |
+| Convert | `/mcp/convert` | Unit conversions (temperature, length, weight) |
+| Validate | `/mcp/validate` | Email, URL, phone validation |
+| String | `/mcp/string` | String manipulation, character counting |
+| Hash | `/mcp/hash` | MD5, SHA256, etc. |
+| Encode | `/mcp/encode` | Base64, URL, HTML encoding |
+| All | `/mcp/all` | All 500+ tools combined |
+
+[View all categories →](/mcp/categories)
+
+## Quick Start
+
+### 1. Get an API Key
+
+Sign up at [tinyfn.io](https://tinyfn.io) to get your API key.
+
+### 2. Configure Your Client
+
+<Tabs>
+  <Tab title="Claude Desktop">
+    Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "tinyfn-math": {
+          "url": "https://api.tinyfn.io/mcp/math/mcp",
+          "transport": "http",
+          "headers": {
+            "X-API-Key": "tf_live_YOUR_KEY_HERE"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Continue.dev">
+    Add to your Continue config:
+
+    ```json
+    {
+      "experimental": {
+        "mcpServers": [
+          {
+            "name": "tinyfn",
+            "url": "https://api.tinyfn.io/mcp/math/mcp",
+            "headers": {
+              "X-API-Key": "tf_live_YOUR_KEY_HERE"
+            }
+          }
+        ]
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### 3. Use It
+
+Ask your AI assistant to do math, conversions, or other tasks. It will automatically use TinyFn tools when appropriate.
+
+**Example:**
+```
+You: What's 123456789 * 987654321?
+AI: [calls tinyfn multiply tool]
+    The result is 121,932,631,112,635,269
+
+You: How many r's are in strawberry?
+AI: [calls tinyfn count-char tool]
+    There are 3 r's in "strawberry" at positions 3, 9, and 10.
+
+You: Is 0.9 greater than 0.11?
+AI: [calls tinyfn compare tool]
+    Yes, 0.9 is greater than 0.11. The difference is 0.79.
+```
+
+## Rate Limits
+
+MCP requests count against your normal TinyFn rate limits:
+
+| Plan | Requests/Month | Requests/Minute |
+|------|----------------|-----------------|
+| Free | 100 | 10 |
+| Starter | 10,000 | 100 |
+| Pro | 100,000 | 1,000 |
+
+## Authentication Errors
+
+If you see auth errors, verify:
+1. Your API key starts with `tf_live_`
+2. The `X-API-Key` header is included
+3. Your key hasn't been revoked
+
+## Example Tools
+
+### Math Tools
+
+```
+add(numbers: "1,2,3,4,5") → {"sum": 15}
+multiply(numbers: "2,3,4") → {"product": 24}
+compare(a: 0.9, b: 0.11) → {"a_is_greater": true, "difference": 0.79}
+is_prime(number: 17) → {"is_prime": true}
+```
+
+### String Tools
+
+```
+count_char(text: "strawberry", char: "r") → {"count": 3, "positions": [2, 8, 9]}
+count_substring(text: "banana", substring: "an") → {"count": 2}
+```
+
+### Conversion Tools
+
+```
+celsius_to_fahrenheit(celsius: 100) → {"fahrenheit": 212}
+km_to_mi(kilometers: 10) → {"miles": 6.2137}
+```

@@ -1,0 +1,146 @@
+---
+title: MCP Server Categories
+description: All available TinyFn MCP servers organized by category
+---
+
+# MCP Server Categories
+
+TinyFn provides 29 category-specific MCP servers plus one combined server. Use category servers to give your LLM focused toolsets without overwhelming it with 500+ tools.
+
+## Recommended Categories
+
+These are the most useful for common LLM tasks:
+
+| Category | URL | Tools | Best For |
+|----------|-----|-------|----------|
+| **Math** | `/mcp/math/mcp` | 55+ | Arithmetic, comparisons, trigonometry |
+| **Convert** | `/mcp/convert/mcp` | 40+ | Unit conversions (temp, length, weight) |
+| **Validate** | `/mcp/validate/mcp` | 25+ | Email, URL, phone, credit card validation |
+| **String** | `/mcp/string/mcp` | 30+ | Character counting, string manipulation |
+| **Hash** | `/mcp/hash/mcp` | 10+ | MD5, SHA256, SHA512, bcrypt |
+| **Encode** | `/mcp/encode/mcp` | 15+ | Base64, URL, HTML encoding/decoding |
+
+## All Categories
+
+### Data & Validation
+
+| Category | URL | Description |
+|----------|-----|-------------|
+| Validate | `/mcp/validate/mcp` | Email, URL, phone, UUID, credit card validation |
+| JSON | `/mcp/json/mcp` | JSON parsing, formatting, path extraction |
+| Regex | `/mcp/regex/mcp` | Pattern matching, extraction, replacement |
+
+### Math & Numbers
+
+| Category | URL | Description |
+|----------|-----|-------------|
+| Math | `/mcp/math/mcp` | Arithmetic, comparisons, trigonometry, factorials |
+| Number | `/mcp/number/mcp` | Number formatting, ordinals, roman numerals |
+| Stats | `/mcp/stats/mcp` | Mean, median, standard deviation, percentiles |
+| Finance | `/mcp/finance/mcp` | Interest, NPV, currency formatting |
+
+### Text & Strings
+
+| Category | URL | Description |
+|----------|-----|-------------|
+| String | `/mcp/string/mcp` | Character counting, reverse, truncate, pad |
+| Text | `/mcp/text/mcp` | Word count, reading time, sentiment |
+| Case | `/mcp/case/mcp` | camelCase, snake_case, Title Case |
+| Slug | `/mcp/slug/mcp` | URL slugification |
+| Lorem | `/mcp/lorem/mcp` | Lorem ipsum generation |
+
+### Encoding & Cryptography
+
+| Category | URL | Description |
+|----------|-----|-------------|
+| Encode | `/mcp/encode/mcp` | Base64, URL, HTML, Unicode encoding |
+| Hash | `/mcp/hash/mcp` | MD5, SHA256, SHA512, HMAC |
+| Crypto | `/mcp/crypto/mcp` | Encryption, decryption, key generation |
+| Password | `/mcp/password/mcp` | Password generation, strength checking |
+
+### Date & Time
+
+| Category | URL | Description |
+|----------|-----|-------------|
+| Datetime | `/mcp/datetime/mcp` | Parse, format, calculate dates |
+| Time | `/mcp/time/mcp` | Timezone conversion, time formatting |
+
+### Conversion
+
+| Category | URL | Description |
+|----------|-----|-------------|
+| Convert | `/mcp/convert/mcp` | Temperature, length, weight, volume |
+| Color | `/mcp/color/mcp` | HEX, RGB, HSL color conversion |
+| Format | `/mcp/format/mcp` | Number formatting, byte sizes |
+
+### Network & Location
+
+| Category | URL | Description |
+|----------|-----|-------------|
+| IP | `/mcp/ip/mcp` | IP validation, subnet calculation |
+| Network | `/mcp/network/mcp` | URL parsing, domain extraction |
+| Geo | `/mcp/geo/mcp` | Distance calculation, coordinates |
+
+### Generators & Utilities
+
+| Category | URL | Description |
+|----------|-----|-------------|
+| Generate | `/mcp/generate/mcp` | UUID, random strings, nanoid |
+| Array | `/mcp/array/mcp` | Sort, shuffle, unique, chunk |
+| Health | `/mcp/health/mcp` | BMI, BMR, calorie calculations |
+| Fun | `/mcp/fun/mcp` | Dice rolls, coin flips, 8-ball |
+| Misc | `/mcp/misc/mcp` | Various utilities |
+
+## Combined Server
+
+For maximum capability, use the combined server:
+
+| Server | URL | Description |
+|--------|-----|-------------|
+| **All** | `/mcp/all/mcp` | All 500+ tools in one server |
+
+<Warning>
+The combined server exposes 500+ tools. Some LLMs may struggle with tool selection when given too many options. Start with category servers for better results.
+</Warning>
+
+## Configuration Examples
+
+### Single Category (Recommended)
+
+```json
+{
+  "mcpServers": {
+    "tinyfn-math": {
+      "url": "https://api.tinyfn.io/mcp/math/mcp",
+      "transport": "http",
+      "headers": {
+        "X-API-Key": "tf_live_YOUR_KEY"
+      }
+    }
+  }
+}
+```
+
+### Multiple Categories
+
+```json
+{
+  "mcpServers": {
+    "tinyfn-math": {
+      "url": "https://api.tinyfn.io/mcp/math/mcp",
+      "transport": "http",
+      "headers": { "X-API-Key": "tf_live_YOUR_KEY" }
+    },
+    "tinyfn-string": {
+      "url": "https://api.tinyfn.io/mcp/string/mcp",
+      "transport": "http",
+      "headers": { "X-API-Key": "tf_live_YOUR_KEY" }
+    },
+    "tinyfn-convert": {
+      "url": "https://api.tinyfn.io/mcp/convert/mcp",
+      "transport": "http",
+      "headers": { "X-API-Key": "tf_live_YOUR_KEY" }
+    }
+  }
+}
+```

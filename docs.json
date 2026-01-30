@@ -31,6 +31,18 @@
         ]
       },
       {
+        "tab": "MCP",
+        "groups": [
+          {
+            "group": "MCP Integration",
+            "pages": [
+              "mcp/overview",
+              "mcp/categories"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "API Reference",
         "openapi": "https://api.tinyfn.io/openapi.json"
       }
