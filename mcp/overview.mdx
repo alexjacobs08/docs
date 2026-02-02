@@ -22,17 +22,43 @@ With TinyFn MCP, LLMs can call verified functions instead of guessing.
 
 TinyFn provides category-based MCP servers to avoid overwhelming LLMs with 500+ tools:
 
-| Server | URL | Description |
-|--------|-----|-------------|
-| Math | `/mcp/math` | Arithmetic, comparisons, trigonometry |
-| Convert | `/mcp/convert` | Unit conversions (temperature, length, weight) |
-| Validate | `/mcp/validate` | Email, URL, phone validation |
-| String | `/mcp/string` | String manipulation, character counting |
-| Hash | `/mcp/hash` | MD5, SHA256, etc. |
-| Encode | `/mcp/encode` | Base64, URL, HTML encoding |
-| All | `/mcp/all` | All 500+ tools combined |
+| Server | URL | Tools | Description |
+|--------|-----|-------|-------------|
+| Math | `/mcp/math/` | 52 | Arithmetic, comparisons, trigonometry |
+| Convert | `/mcp/convert/` | 42 | Unit conversions (temperature, length, weight) |
+| Validate | `/mcp/validate/` | 15 | Email, URL, phone validation |
+| String | `/mcp/string/` | 33 | String manipulation, character counting |
+| Hash | `/mcp/hash/` | 18 | MD5, SHA256, etc. |
+| Encode | `/mcp/encode/` | 20 | Base64, URL, HTML encoding |
+| DateTime | `/mcp/datetime/` | 24 | Timestamps, formatting, relative time |
+| Time | `/mcp/time/` | 12 | Timezone conversions, DST handling |
+| Stats | `/mcp/stats/` | 16 | Mean, median, mode, variance, percentiles |
+| All | `/mcp/all/` | 500+ | All tools combined |
 
 [View all categories →](/mcp/categories)
+
+<Warning>
+**Trailing Slash Required**
+
+URLs **must** end with `/` or you'll get 404 errors:
+- ✅ `https://api.tinyfn.io/mcp/math/`
+- ❌ `https://api.tinyfn.io/mcp/math`
+</Warning>
+
+## Platform Tool Limits
+
+Different AI platforms have different limits on how many MCP tools they can handle:
+
+| Platform | Tool Limit | Recommendation |
+|----------|------------|----------------|
+| **Cursor** | 40 tools max | Use `validate` (15), `hash` (18), `encode` (20), or `string` (33). Avoid `math` (52) and `convert` (42) which exceed the limit. |
+| **Claude Desktop** | ~100 tools | Use 2-3 category servers |
+| **Claude Code** | Context-based | Can use `/mcp/all/` with Tool Search |
+| **Windsurf** | ~40-50 tools | Same as Cursor recommendations |
+
+<Tip>
+For best results, add only the category servers you need rather than using `/mcp/all/`. This keeps the tool list manageable and helps the AI select the right tool.
+</Tip>
 
 ## Quick Start
 
@@ -51,7 +77,6 @@ Sign up at [tinyfn.io](https://tinyfn.io) to get your API key.
       "mcpServers": {
         "tinyfn-math": {
           "url": "https://api.tinyfn.io/mcp/math/",
-          "transport": "http",
           "headers": {
             "X-API-Key": "tf_live_YOUR_KEY_HERE"
           }
@@ -59,6 +84,24 @@ Sign up at [tinyfn.io](https://tinyfn.io) to get your API key.
       }
     }
     ```
+  </Tab>
+  <Tab title="Cursor / Windsurf">
+    Add to your MCP config:
+
+    ```json
+    {
+      "mcpServers": {
+        "tinyfn-validate": {
+          "url": "https://api.tinyfn.io/mcp/validate/",
+          "headers": {
+            "X-API-Key": "tf_live_YOUR_KEY_HERE"
+          }
+        }
+      }
+    }
+    ```
+
+    <Note>Use `validate` (15 tools), `hash` (18), or `encode` (20) for Cursor/Windsurf's 40-tool limit.</Note>
   </Tab>
   <Tab title="Continue.dev">
     Add to your Continue config:
